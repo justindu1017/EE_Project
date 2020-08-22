@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 while((str = reader.readLine())!= null){
                     sb.append(str);
                 }
-                System.out.println("res is       "+sb.toString());
+                System.out.println("res is "+sb.toString());
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
