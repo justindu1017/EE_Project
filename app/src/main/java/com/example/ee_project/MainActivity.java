@@ -2,6 +2,7 @@ package com.example.ee_project;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     EditText loginAccount, loginPassword;
-    Button loginButton;
+    Button loginButton, joinButton;
 
 
     @Override
@@ -36,12 +37,21 @@ public class MainActivity extends AppCompatActivity {
         loginAccount = findViewById(R.id.loginAccount);
         loginPassword = findViewById(R.id.loginPassword);
         loginButton = findViewById(R.id.loginButton);
+        joinButton = findViewById(R.id.joinButton);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Load load = new Load();
                 load.execute();
+            }
+        });
+
+
+        joinButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotoJoinACT();
             }
         });
 
@@ -96,8 +106,15 @@ public class MainActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
+            System.out.println("OK");
             return null;
         }
+    }
+
+
+
+    private void gotoJoinACT(){
+        Intent intent = new Intent(MainActivity.this, joinMember.class);
+        startActivity(intent);
     }
 }

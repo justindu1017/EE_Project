@@ -4,28 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:orientation="vertical">
-
+    android:orientation="vertical"
+    tools:context=".joinMember">
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/loginAccount"
-        android:hint="Account"/>
+        android:hint="Please Enter Your Username"
+        android:id="@+id/joinuserName"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/loginPassword"
-        android:hint="Password"/>
+        android:hint="Please Enter Your Passwoed"
+        android:id="@+id/joinpassWord"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Please Enter Your PAssword again"
+        android:id="@+id/joinpassWord2"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Please Enter Your Email"
+        android:id="@+id/joineMail"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/loginButton"
-        android:text="Login"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/joinButton"
-        android:text="Join"/>
+        android:text="join"
+        android:id="@+id/joinMemberBut"/>
+
 </LinearLayout>
