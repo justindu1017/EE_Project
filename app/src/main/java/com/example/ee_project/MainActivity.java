@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -51,8 +54,6 @@ public class MainActivity extends AppCompatActivity {
         protected String doInBackground(String... strings) {
             String inputAccount = loginAccount.getText().toString();
             String inputPassword = loginPassword.getText().toString();
-            System.out.println("get Account "+inputAccount);
-            System.out.println("get pass "+inputPassword);
 
             try {
                 URL url = new URL("http://10.0.2.2/index.php");
@@ -78,11 +79,21 @@ public class MainActivity extends AppCompatActivity {
                 String str;
                 while((str = reader.readLine())!= null){
                     sb.append(str);
+
+                    JSONObject jsonObject = new JSONObject(sb.toString());
+
+                    String UID = jsonObject.getString("UID");
+                    String userName = jsonObject.getString("userName");
+                    String passWord = jsonObject.getString("passWord");
+                    String eMail = jsonObject.getString("eMail");
+
+
                 }
-                System.out.println("res is "+sb.toString());
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
 
