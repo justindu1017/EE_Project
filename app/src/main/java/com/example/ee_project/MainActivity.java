@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -90,14 +91,29 @@ public class MainActivity extends AppCompatActivity {
                 while((str = reader.readLine())!= null){
                     sb.append(str);
 
-                    JSONObject jsonObject = new JSONObject(sb.toString());
+                    final JSONObject jsonObject = new JSONObject(sb.toString());
+                    System.out.println(jsonObject);
+//                    String result = jsonObject.getString("result");
 
-                    String UID = jsonObject.getString("UID");
-                    String userName = jsonObject.getString("userName");
-                    String passWord = jsonObject.getString("passWord");
-                    String eMail = jsonObject.getString("eMail");
+                    if (jsonObject.getInt("result") == 1){
+                        String UID = jsonObject.getString("UID");
+                        String userName = jsonObject.getString("userName");
+                        String passWord = jsonObject.getString("passWord");
+                        String eMail = jsonObject.getString("eMail");
+                        System.out.println("emali = "+eMail);
+                    }
+                    else if(jsonObject.getInt("result") == 0){
 
-
+                        //System.out.println("err = "+errmsg);
+                        final String errmsg = jsonObject.getString("ErrMsg");
+                        MainActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+//                                String errmsg = jsonObject.getString("ErrMsg");
+                                Toast.makeText(MainActivity.this,errmsg, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
                 }
             } catch (MalformedURLException e) {
                 e.printStackTrace();
