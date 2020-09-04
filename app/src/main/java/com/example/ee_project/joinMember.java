@@ -104,7 +104,7 @@ public class joinMember extends AppCompatActivity {
                 dataOutputStream.flush();
                 dataOutputStream.close();
 
-                // TODO: 2020/9/3 ready to get input String 
+                // TODO: 2020/9/3 ready to get input String
                 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
