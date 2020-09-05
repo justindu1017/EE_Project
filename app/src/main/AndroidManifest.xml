@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".joinMember"></activity>
+        <activity android:name=".postPage"></activity>
+        <activity android:name=".joinMember" />
 
         <meta-data
             android:name="com.google.android.actions"

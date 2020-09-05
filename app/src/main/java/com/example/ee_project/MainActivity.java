@@ -30,11 +30,16 @@ public class MainActivity extends AppCompatActivity {
     EditText loginAccount, loginPassword;
     Button loginButton, joinButton;
 
-
+    boolean LoginCheck = getSharedPreferences("accountInfo", MODE_PRIVATE).getBoolean("isLogin", false);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if(LoginCheck){
+            gotoPostACT();
+            finish();
+        }
 
         loginAccount = findViewById(R.id.loginAccount);
         loginPassword = findViewById(R.id.loginPassword);
@@ -121,7 +126,10 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.makeText(MainActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
                             }
                         });
-                        // TODO: 2020/9/5 insert into prepare statement
+
+                        gotoPostACT();
+
+                        finish();
 
                     }
                     else if(jsonObject.getInt("result") == 0){
@@ -146,6 +154,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void gotoJoinACT(){
         Intent intent = new Intent(MainActivity.this, joinMember.class);
+        startActivity(intent);
+    }
+
+    private void gotoPostACT(){
+        Intent intent = new Intent(MainActivity.this, postPage.class);
         startActivity(intent);
     }
 }
