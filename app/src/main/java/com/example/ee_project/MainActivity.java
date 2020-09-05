@@ -3,6 +3,7 @@ package com.example.ee_project;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -100,19 +101,34 @@ public class MainActivity extends AppCompatActivity {
                         String userName = jsonObject.getString("userName");
                         String passWord = jsonObject.getString("passWord");
                         String eMail = jsonObject.getString("eMail");
-                        System.out.println("emali = "+eMail);
+
+                        SharedPreferences sharedPreferences = getSharedPreferences("accountInfo",MODE_PRIVATE);
+
+                        sharedPreferences.edit()
+                                .putBoolean("isLogin", true)
+                                .putString("UID", UID)
+                                .putString("userName", userName)
+                                .putString("passWord", passWord)
+                                .putString("eMail", eMail)
+                                .commit();
+
+
+
+
+                        MainActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(MainActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        // TODO: 2020/9/5 insert into prepare statement
+
                     }
                     else if(jsonObject.getInt("result") == 0){
 
                         //System.out.println("err = "+errmsg);
                         final String errmsg = jsonObject.getString("ErrMsg");
-                        MainActivity.this.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-//                                String errmsg = jsonObject.getString("ErrMsg");
-                                Toast.makeText(MainActivity.this,errmsg, Toast.LENGTH_SHORT).show();
-                            }
-                        });
+
                     }
                 }
             } catch (MalformedURLException e) {
@@ -122,7 +138,6 @@ public class MainActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            System.out.println("OK");
             return null;
         }
     }

@@ -9,8 +9,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -51,10 +58,10 @@ public class joinMember extends AppCompatActivity {
                         if(!isValidEmailAddress(joineMailSTR)){
                             Toast.makeText(joinMember.this, "請確認郵件信箱格式", Toast.LENGTH_SHORT).show();
                         }else{
-                            List<String> list = new ArrayList<>();
-                            list.add(joinuserNameSTR);
-                            list.add(joinpassWordSTR);
-                            list.add(joineMailSTR);
+//                            List<String> list = new ArrayList<>();
+//                            list.add(joinuserNameSTR);
+//                            list.add(joinpassWordSTR);
+//                            list.add(joineMailSTR);
 
                             Load load = new Load();
                             load.execute(joinuserNameSTR, joinpassWordSTR, joineMailSTR);
@@ -87,31 +94,68 @@ public class joinMember extends AppCompatActivity {
                 String joinEmail = str[2];
 
 
+                System.out.println("1 : " + joinUserName);
+                System.out.println("1 : " + joinPassword);
+                System.out.println("1 : " + joinEmail);
+
                 URL url = new URL("http://10.0.2.2/userRegister.php");
+
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setDoInput(true);
                 httpURLConnection.setDoOutput(true);
+                httpURLConnection.setRequestMethod("POST");
 
-                DataOutputStream dataOutputStream = new DataOutputStream(httpURLConnection.getOutputStream());
+                final DataOutputStream dataOutputStream = new DataOutputStream(httpURLConnection.getOutputStream());
                 StringBuilder stringBuilder = new StringBuilder();
 
-                stringBuilder.append("newUserName").append(URLEncoder.encode(joinUserName, "UTF-8")).append("&");
-                stringBuilder.append("newPassword").append(URLEncoder.encode(joinPassword, "UTF-8")).append("&");
-                stringBuilder.append("newEmail").append(URLEncoder.encode(joinEmail, "UTF-8")).append("&");
+                stringBuilder.append("registUsername=").append(URLEncoder.encode(joinUserName, "UTF-8")).append("&");
+                stringBuilder.append("registPassword=").append(URLEncoder.encode(joinPassword, "UTF-8")).append("&");
+                stringBuilder.append("registMail=").append(URLEncoder.encode(joinEmail, "UTF-8"));
 
                 dataOutputStream.writeBytes(stringBuilder.toString());
-
                 dataOutputStream.flush();
                 dataOutputStream.close();
 
                 // TODO: 2020/9/3 ready to get input String
+
+                InputStream is = new BufferedInputStream(httpURLConnection.getInputStream());
+                InputStreamReader inputStreamReader = new InputStreamReader(is);
+                BufferedReader reader = new BufferedReader(inputStreamReader);
+                StringBuffer sb = new StringBuffer();
+                String string;
+                while((string = reader.readLine())!= null){
+                    sb.append(string);
+
+                    final JSONObject jsonObject = new JSONObject(sb.toString());
+                    System.out.println(jsonObject);
+
+                    if (jsonObject.getInt("result") == 1){
+                        joinMember.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(joinMember.this, "註冊完成", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        });
+                    }
+                    else if(jsonObject.getInt("result") == 0){
+                        final String errmsg = jsonObject.getString("ErrMsg");
+                        joinMember.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(joinMember.this,errmsg, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
                 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-
             return null;
         }
     }
