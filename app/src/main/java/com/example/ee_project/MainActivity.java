@@ -30,12 +30,12 @@ public class MainActivity extends AppCompatActivity {
     EditText loginAccount, loginPassword;
     Button loginButton, joinButton;
 
-    boolean LoginCheck = getSharedPreferences("accountInfo", MODE_PRIVATE).getBoolean("isLogin", false);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        boolean LoginCheck = getSharedPreferences("accountInfo", MODE_PRIVATE).getBoolean("isLogin", false);
         if(LoginCheck){
             gotoPostACT();
             finish();
@@ -116,10 +116,6 @@ public class MainActivity extends AppCompatActivity {
                                 .putString("passWord", passWord)
                                 .putString("eMail", eMail)
                                 .commit();
-
-
-
-
                         MainActivity.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -133,10 +129,13 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                     else if(jsonObject.getInt("result") == 0){
-
-                        //System.out.println("err = "+errmsg);
                         final String errmsg = jsonObject.getString("ErrMsg");
-
+                        MainActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(MainActivity.this, errmsg, Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 }
             } catch (MalformedURLException e) {

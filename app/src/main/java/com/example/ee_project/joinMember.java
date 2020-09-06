@@ -58,11 +58,6 @@ public class joinMember extends AppCompatActivity {
                         if(!isValidEmailAddress(joineMailSTR)){
                             Toast.makeText(joinMember.this, "請確認郵件信箱格式", Toast.LENGTH_SHORT).show();
                         }else{
-//                            List<String> list = new ArrayList<>();
-//                            list.add(joinuserNameSTR);
-//                            list.add(joinpassWordSTR);
-//                            list.add(joineMailSTR);
-
                             Load load = new Load();
                             load.execute(joinuserNameSTR, joinpassWordSTR, joineMailSTR);
                         }
@@ -92,11 +87,6 @@ public class joinMember extends AppCompatActivity {
                 String joinUserName = str[0];
                 String joinPassword = str[1];
                 String joinEmail = str[2];
-
-
-                System.out.println("1 : " + joinUserName);
-                System.out.println("1 : " + joinPassword);
-                System.out.println("1 : " + joinEmail);
 
                 URL url = new URL("http://10.0.2.2/userRegister.php");
 
