@@ -9,8 +9,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -53,7 +60,7 @@ public class postPage extends AppCompatActivity {
             String content = strings[1];
 
             try {
-                URL url = new URL("http://10.0.2.2/postPage.php");
+                URL url = new URL("http://10.0.2.2/articalMaker.php");
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setDoInput(true);
                 httpURLConnection.setDoOutput(true);
@@ -67,16 +74,47 @@ public class postPage extends AppCompatActivity {
 
                 stringBuilder.append("userName=").append(URLEncoder.encode(userName, "UTF-8")).append("&");
                 stringBuilder.append("eMail=").append(URLEncoder.encode(eMail, "UTF-8")).append("&");
-                stringBuilder.append("newTitle=").append(URLEncoder.encode(title, "UTF-8")).append("&");
-                stringBuilder.append("newcontent=").append(URLEncoder.encode(content, "UTF-8"));
+                stringBuilder.append("articalTitle=").append(URLEncoder.encode(title, "UTF-8")).append("&");
+                stringBuilder.append("articalContent=").append(URLEncoder.encode(content, "UTF-8"));
 
                 dataOutputStream.writeBytes(stringBuilder.toString());
                 dataOutputStream.flush();
                 dataOutputStream.close();
+                InputStream is = new BufferedInputStream(httpURLConnection.getInputStream());
+                InputStreamReader inputStreamReader = new InputStreamReader(is);
+                BufferedReader reader = new BufferedReader(inputStreamReader);
+                StringBuffer sb = new StringBuffer();
+                String string;
+                while((string = reader.readLine())!= null){
+                    sb.append(string);
 
+                    final JSONObject jsonObject = new JSONObject(sb.toString());
+                    System.out.println(jsonObject);
+
+                    if (jsonObject.getInt("result") == 1){
+                        postPage.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(postPage.this, "發文成功", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        });
+                    }
+                    else if(jsonObject.getInt("result") == 0){
+                        final String errmsg = jsonObject.getString("ErrMsg");
+                        postPage.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(postPage.this,errmsg, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
 
