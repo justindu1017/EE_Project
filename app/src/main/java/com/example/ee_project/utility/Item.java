@@ -1,13 +1,13 @@
 package com.example.ee_project.utility;
 
-public class Aitem {
+public class Item {
 
 
     String userName;
     String articalTitle;
     String articalContent;
 
-    public Aitem(String userName, String articalTitle, String articalContent) {
+    public Item(String userName, String articalTitle, String articalContent) {
         this.userName = userName;
         this.articalTitle = articalTitle;
         this.articalContent = articalContent;
