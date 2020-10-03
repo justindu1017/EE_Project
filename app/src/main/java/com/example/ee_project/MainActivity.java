@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         boolean LoginCheck = getSharedPreferences("accountInfo", MODE_PRIVATE).getBoolean("isLogin", false);
         if(LoginCheck){
-            gotoPostACT();
+            gotoListACT();
             finish();
         }
 
@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                         });
 
-                        gotoPostACT();
+                        gotoListACT();
 
                         finish();
 
@@ -156,8 +156,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void gotoPostACT(){
-        Intent intent = new Intent(MainActivity.this, postPage.class);
+    private void gotoListACT(){
+        Intent intent = new Intent(MainActivity.this, ArticalListPage.class);
         startActivity(intent);
     }
 }

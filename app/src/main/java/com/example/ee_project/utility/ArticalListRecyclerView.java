@@ -42,8 +42,9 @@ public class ArticalListRecyclerView extends RecyclerView.Adapter<ArticalListRec
         // TODO: 9/23/2020 Check to final or not to final 
         final Item item = arrayList.get(position);
         holder.listTitle.setText(item.getArticalTitle());
-        holder.listContent.setText(item.getArticalContent());
+        holder.listContent.setText(item.getArticalAID());
         holder.listName.setText(item.getArticaluserName());
+//        holder.listName.setText(item.getArticaluserName());
 
         holder.listLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override

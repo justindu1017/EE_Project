@@ -7,13 +7,13 @@ public class Item {
 
     String articaluserName;
     String articalTitle;
-    String articalContent;
-    Date articalDate;
+    int articalAID;
+    String articalDate;
 
-    public Item(String articaluserName, String articalTitle, String articalContent, Date articalDate) {
+    public Item(int articalAID, String articalTitle, String articaluserName, String articalDate) {
         this.articaluserName = articaluserName;
         this.articalTitle = articalTitle;
-        this.articalContent = articalContent;
+        this.articalAID = articalAID;
         this.articalDate = articalDate;
     }
 
@@ -33,19 +33,19 @@ public class Item {
         this.articalTitle = articalTitle;
     }
 
-    public String getArticalContent() {
-        return articalContent;
+    public int getArticalAID() {
+        return articalAID;
     }
 
-    public void setArticalContent(String articalContent) {
-        this.articalContent = articalContent;
+    public void setArticalAID(int articalAID) {
+        this.articalAID = articalAID;
     }
 
-    public Date getArticalDate() {
+    public String getArticalDate() {
         return articalDate;
     }
 
-    public void setArticalDate(Date articalDate) {
+    public void setArticalDate(String articalDate) {
         this.articalDate = articalDate;
     }
 }
