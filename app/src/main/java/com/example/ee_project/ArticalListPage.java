@@ -49,7 +49,7 @@ public class ArticalListPage extends AppCompatActivity {
                 gotoPostACT();
             }
         });
-
+        System.out.println("BU");
         recyclerView = findViewById(R.id.recycleV);
         ArticalListRecyclerView articalListRecyclerView = new ArticalListRecyclerView(ArticalListPage.this, contentArray);
         recyclerView.setAdapter(articalListRecyclerView);
