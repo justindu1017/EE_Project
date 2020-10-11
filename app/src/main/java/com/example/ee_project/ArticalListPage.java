@@ -33,7 +33,6 @@ public class ArticalListPage extends AppCompatActivity {
 
     Button button;
     RecyclerView recyclerView;
-    ArrayList<Item> contentArray = new ArrayList<>();
     String LoadFrom;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,24 +48,19 @@ public class ArticalListPage extends AppCompatActivity {
                 gotoPostACT();
             }
         });
-        System.out.println("BU");
-        recyclerView = findViewById(R.id.recycleV);
-        ArticalListRecyclerView articalListRecyclerView = new ArticalListRecyclerView(ArticalListPage.this, contentArray);
-        recyclerView.setAdapter(articalListRecyclerView);
-        recyclerView.setLayoutManager((new LinearLayoutManager(this)));
+//        recyclerView = findViewById(R.id.recycleV);
+////        ArticalListRecyclerView articalListRecyclerView = new ArticalListRecyclerView(ArticalListPage.this, );
+////        recyclerView.setAdapter(articalListRecyclerView);
+//        recyclerView.setLayoutManager((new LinearLayoutManager(this)));
 
     }
-//    public void Array() {
-//        for (int i = 0; i < 100; i++) {
-//            Item item = new Item();
-//        }
-//        System.out.println("Array = " + contentArray);
-//    }
 
 
-    class loadData extends AsyncTask<String, String, String>{
+    class loadData extends AsyncTask<String, String, ArrayList>{
+
+        ArrayList<Item> contentArray = new ArrayList<>();
         @Override
-        protected String doInBackground(String... strings) {
+        protected ArrayList doInBackground(String... strings) {
 
             String LoadFrom = strings[0];
 
@@ -90,18 +84,16 @@ public class ArticalListPage extends AppCompatActivity {
                 BufferedReader reader = new BufferedReader(inputStreamReader);
                 StringBuffer sb = new StringBuffer();
                 String string;
+
                 while((string = reader.readLine())!= null){
                     sb.append(string);
                     final JSONObject jsonObject = new JSONObject(sb.toString());
-//                    System.out.println("it is");
-//                    System.out.println(jsonObject);
 
                     if(jsonObject.getInt("result") == 1){
-                        System.out.println("it is "+jsonObject.getJSONArray("Arr").length());
+                        System.out.println("it is "+jsonObject.getJSONArray("Arr"));
                         for (int i = 0; i<jsonObject.getJSONArray("Arr").length();i++){
                             Item item = new Item(jsonObject.getJSONArray("Arr").getJSONArray(i).getInt(0), jsonObject.getJSONArray("Arr").getJSONArray(i).getString(1), jsonObject.getJSONArray("Arr").getJSONArray(i).getString(2), jsonObject.getJSONArray("Arr").getJSONArray(i).getString(3));
-//                            System.out.println(jsonObject.getJSONArray("Arr").getJSONArray(i).getString(3));
-
+                            contentArray.add(item);
                         }
                     }
 
@@ -114,8 +106,23 @@ public class ArticalListPage extends AppCompatActivity {
                 e.printStackTrace();
             }
 
+            System.out.println("content array is "+contentArray);
+            return contentArray;
+        }
 
-            return null;
+        @Override
+        protected void onPostExecute(final ArrayList arrayList) {
+            System.out.println("from post is "+arrayList);
+            ArticalListPage.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    recyclerView = findViewById(R.id.recycleV);
+                    ArticalListRecyclerView articalListRecyclerView = new ArticalListRecyclerView(ArticalListPage.this, arrayList);
+                    recyclerView.setAdapter(articalListRecyclerView);
+                    recyclerView.setLayoutManager((new LinearLayoutManager(ArticalListPage.this)));
+
+                }
+            });
         }
     }
 

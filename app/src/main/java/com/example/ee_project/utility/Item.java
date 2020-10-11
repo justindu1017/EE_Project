@@ -9,8 +9,7 @@ public class Item {
     String articalTitle;
     int articalAID;
     String articalDate;
-
-    public Item(int articalAID, String articalTitle, String articaluserName, String articalDate) {
+    public Item(int articalAID, String articaluserName, String articalTitle, String articalDate) {
         this.articaluserName = articaluserName;
         this.articalTitle = articalTitle;
         this.articalAID = articalAID;
