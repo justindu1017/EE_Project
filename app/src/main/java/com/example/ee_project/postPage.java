@@ -87,7 +87,7 @@ public class postPage extends AppCompatActivity {
                 String string;
                 while((string = reader.readLine())!= null){
                     sb.append(string);
-
+                    System.out.println("ret = "+sb);
                     final JSONObject jsonObject = new JSONObject(sb.toString());
                     System.out.println(jsonObject);
 

@@ -1,6 +1,7 @@
 package com.example.ee_project.utility;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ee_project.R;
+import com.example.ee_project.articalView;
 import com.example.ee_project.utility.Item;
 
 import java.io.IOException;
@@ -47,14 +49,15 @@ public class ArticalListRecyclerView extends RecyclerView.Adapter<ArticalListRec
         // TODO: 9/23/2020 Check to final or not to final 
         final Item item = arrayList.get(position);
         holder.listTitle.setText(item.getArticalTitle());
-//        holder.listContent.setText(item.getArticalAID());
         holder.listName.setText(item.getArticaluserName());
-//        holder.listName.setText(item.getArticaluserName());
 
         holder.listLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                int AID = item.getArticalAID();
+                Intent intent = new Intent(v.getContext(), articalView.class);
+                intent.putExtra("AID", AID);
+                v.getContext().startActivity(intent);
             }
         });
     }

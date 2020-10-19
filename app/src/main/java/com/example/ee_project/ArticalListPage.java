@@ -87,6 +87,7 @@ public class ArticalListPage extends AppCompatActivity {
 
                 while((string = reader.readLine())!= null){
                     sb.append(string);
+                    System.out.println(sb);
                     final JSONObject jsonObject = new JSONObject(sb.toString());
 
                     if(jsonObject.getInt("result") == 1){
