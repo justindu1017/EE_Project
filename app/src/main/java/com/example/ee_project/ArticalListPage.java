@@ -75,7 +75,7 @@ public class ArticalListPage extends AppCompatActivity {
 
                 DataOutputStream dataOutputStream = new DataOutputStream(httpURLConnection.getOutputStream());
                 StringBuilder stringBuilder = new StringBuilder();
-
+//    P
                 stringBuilder.append("LoadFrom=").append(URLEncoder.encode(LoadFrom, "UTF-8"));
                 System.out.println("uuu = "+stringBuilder.toString());
                 dataOutputStream.writeBytes(stringBuilder.toString());
