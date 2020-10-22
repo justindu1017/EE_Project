@@ -37,54 +37,55 @@ public class articalView extends AppCompatActivity {
         int AID = intent.getIntExtra("AID", 00000);
         Toast.makeText(this, String.valueOf(AID), Toast.LENGTH_LONG).show();
 
-//        Load load = new Load();
-//        load.execute();
+        Load load = new Load();
+        load.execute(AID);
     }
 
-//    class Load extends AsyncTask<String,String,String>{
-//
-//
-//        @Override
-//        protected String doInBackground(String... strings) {
-//
-//            try {
-//
-//
-//
-//                URL url = new URL("http://10.0.2.2/userRegister.php");
-//
-//                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-//                httpURLConnection.setDoInput(true);
-//                httpURLConnection.setDoOutput(true);
-//                httpURLConnection.setRequestMethod("POST");
-//
-//                final DataOutputStream dataOutputStream = new DataOutputStream(httpURLConnection.getOutputStream());
-//                StringBuilder stringBuilder = new StringBuilder();
-//
-//                dataOutputStream.writeBytes(stringBuilder.toString());
-//                dataOutputStream.flush();
-//                dataOutputStream.close();
-//
-//                // TODO: 2020/9/3 ready to get input String
-//
-//                InputStream is = new BufferedInputStream(httpURLConnection.getInputStream());
-//                InputStreamReader inputStreamReader = new InputStreamReader(is);
-//                BufferedReader reader = new BufferedReader(inputStreamReader);
-//                StringBuffer sb = new StringBuffer();
-//                String string;
-//                while((string = reader.readLine())!= null){
-//
-//                }
-//
-//            } catch (MalformedURLException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
+    class Load extends AsyncTask<Integer,String,String>{
+
+
+        @Override
+        protected String doInBackground(Integer... ints) {
+
+            try {
+                int AID = ints[0];
+                URL url = new URL("http://10.0.2.2/articalList.php?getContent=true");
+
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setRequestMethod("POST");
+
+                final DataOutputStream dataOutputStream = new DataOutputStream(httpURLConnection.getOutputStream());
+                StringBuilder stringBuilder = new StringBuilder();
+
+                stringBuilder.append("AID=").append(URLEncoder.encode(String.valueOf(AID), "UTF-8"));
+
+                dataOutputStream.writeBytes(stringBuilder.toString());
+                dataOutputStream.flush();
+                dataOutputStream.close();
+
+                // TODO: 2020/9/3 ready to get input String
+
+                InputStream is = new BufferedInputStream(httpURLConnection.getInputStream());
+                InputStreamReader inputStreamReader = new InputStreamReader(is);
+                BufferedReader reader = new BufferedReader(inputStreamReader);
+                StringBuffer sb = new StringBuffer();
+                String string;
+                while((string = reader.readLine())!= null){
+                    sb.append(string);
+                    System.out.println("it is "+sb);
+                }
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+//            catch (JSONException e) {
 //                e.printStackTrace();
 //            }
-////            catch (JSONException e) {
-////                e.printStackTrace();
-////            }
-//            return null;
-//        }
-//    }
-}
+            return null;
+        }
+        }
+    }

@@ -65,7 +65,9 @@ public class ArticalListPage extends AppCompatActivity {
             String LoadFrom = strings[0];
 
             try {
-                URL url = new URL("http://10.0.2.2/articalList.php");
+                URL url = new URL("http://10.0.2.2/articalListxxx.php");
+//                URL url = new URL("http://10.0.2.2/articalListxxx.php");
+
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setDoInput(true);
                 httpURLConnection.setDoOutput(true);
@@ -75,7 +77,7 @@ public class ArticalListPage extends AppCompatActivity {
                 StringBuilder stringBuilder = new StringBuilder();
 
                 stringBuilder.append("LoadFrom=").append(URLEncoder.encode(LoadFrom, "UTF-8"));
-
+                System.out.println("uuu = "+stringBuilder.toString());
                 dataOutputStream.writeBytes(stringBuilder.toString());
                 dataOutputStream.flush();
                 dataOutputStream.close();
@@ -87,10 +89,11 @@ public class ArticalListPage extends AppCompatActivity {
 
                 while((string = reader.readLine())!= null){
                     sb.append(string);
-                    System.out.println(sb);
+                    System.out.println("sb"+sb);
                     final JSONObject jsonObject = new JSONObject(sb.toString());
 
                     if(jsonObject.getInt("result") == 1){
+                        System.out.println("enter if");
                         System.out.println("it is "+jsonObject.getJSONArray("Arr"));
                         for (int i = 0; i<jsonObject.getJSONArray("Arr").length();i++){
                             Item item = new Item(jsonObject.getJSONArray("Arr").getJSONArray(i).getInt(0), jsonObject.getJSONArray("Arr").getJSONArray(i).getString(1), jsonObject.getJSONArray("Arr").getJSONArray(i).getString(2), jsonObject.getJSONArray("Arr").getJSONArray(i).getString(3));
