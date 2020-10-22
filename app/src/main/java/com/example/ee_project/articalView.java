@@ -49,7 +49,7 @@ public class articalView extends AppCompatActivity {
 
             try {
                 int AID = ints[0];
-                URL url = new URL("http://10.0.2.2/articalList.php?getContent=true");
+                URL url = new URL("http://10.0.2.2/articalContent.php");
 
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setDoInput(true);
@@ -58,7 +58,7 @@ public class articalView extends AppCompatActivity {
 
                 final DataOutputStream dataOutputStream = new DataOutputStream(httpURLConnection.getOutputStream());
                 StringBuilder stringBuilder = new StringBuilder();
-
+                stringBuilder.append("AID=").append(URLEncoder.encode(String.valueOf(AID), "UTF-8")).append("&");
                 stringBuilder.append("AID=").append(URLEncoder.encode(String.valueOf(AID), "UTF-8"));
 
                 dataOutputStream.writeBytes(stringBuilder.toString());

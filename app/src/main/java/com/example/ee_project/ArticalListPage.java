@@ -65,7 +65,7 @@ public class ArticalListPage extends AppCompatActivity {
             String LoadFrom = strings[0];
 
             try {
-                URL url = new URL("http://10.0.2.2/articalListxxx.php");
+                URL url = new URL("http://10.0.2.2/articalList.php");
 //                URL url = new URL("http://10.0.2.2/articalListxxx.php");
 
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
