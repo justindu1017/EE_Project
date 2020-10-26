@@ -96,9 +96,9 @@ public class MainActivity extends AppCompatActivity {
                 String str;
                 while((str = reader.readLine())!= null){
                     sb.append(str);
-
+                    System.out.println("articalContent = "+sb);
                     final JSONObject jsonObject = new JSONObject(sb.toString());
-                    System.out.println(jsonObject);
+//                    System.out.println(jsonObject);
 //                    String result = jsonObject.getString("result");
 
                     if (jsonObject.getInt("result") == 1){

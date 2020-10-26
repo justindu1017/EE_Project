@@ -58,7 +58,6 @@ public class articalView extends AppCompatActivity {
 
                 final DataOutputStream dataOutputStream = new DataOutputStream(httpURLConnection.getOutputStream());
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.append("AID=").append(URLEncoder.encode(String.valueOf(AID), "UTF-8")).append("&");
                 stringBuilder.append("AID=").append(URLEncoder.encode(String.valueOf(AID), "UTF-8"));
 
                 dataOutputStream.writeBytes(stringBuilder.toString());
@@ -75,6 +74,12 @@ public class articalView extends AppCompatActivity {
                 while((string = reader.readLine())!= null){
                     sb.append(string);
                     System.out.println("it is "+sb);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                        }
+                    });
                 }
 
             } catch (MalformedURLException e) {
