@@ -56,6 +56,16 @@ public class ArticalListPage extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        Toast.makeText(this, "resss",Toast.LENGTH_LONG).show();
+        loadData load = new loadData();
+        LoadFrom = String.valueOf(0);
+        load.execute(LoadFrom);
+        Toast.makeText(this, "resss",Toast.LENGTH_LONG).show();
+    }
+
     class loadData extends AsyncTask<String, String, ArrayList>{
 
         ArrayList<Item> contentArray = new ArrayList<>();
@@ -133,5 +143,6 @@ public class ArticalListPage extends AppCompatActivity {
     private void gotoPostACT(){
         Intent intent = new Intent(ArticalListPage.this, postPage.class);
         startActivity(intent);
+
     }
 }

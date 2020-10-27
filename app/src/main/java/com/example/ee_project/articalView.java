@@ -41,16 +41,19 @@ public class articalView extends AppCompatActivity {
         load.execute(AID);
     }
 
+
+
+
     class Load extends AsyncTask<Integer,String,String>{
 
 
         @Override
         protected String doInBackground(Integer... ints) {
-
+            String articalContent = null;
             try {
                 int AID = ints[0];
                 URL url = new URL("http://10.0.2.2/articalContent.php");
-
+                System.out.println("in load AID is "+AID);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setDoInput(true);
                 httpURLConnection.setDoOutput(true);
@@ -58,13 +61,11 @@ public class articalView extends AppCompatActivity {
 
                 final DataOutputStream dataOutputStream = new DataOutputStream(httpURLConnection.getOutputStream());
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.append("AID=").append(URLEncoder.encode(String.valueOf(AID), "UTF-8"));
+                stringBuilder.append("AID=").append(AID);
 
                 dataOutputStream.writeBytes(stringBuilder.toString());
                 dataOutputStream.flush();
                 dataOutputStream.close();
-
-                // TODO: 2020/9/3 ready to get input String
 
                 InputStream is = new BufferedInputStream(httpURLConnection.getInputStream());
                 InputStreamReader inputStreamReader = new InputStreamReader(is);
@@ -74,12 +75,8 @@ public class articalView extends AppCompatActivity {
                 while((string = reader.readLine())!= null){
                     sb.append(string);
                     System.out.println("it is "+sb);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-
-                        }
-                    });
+                    final JSONObject jsonObject = new JSONObject(sb.toString());
+                    articalContent =  jsonObject.getString("articalContent");
                 }
 
             } catch (MalformedURLException e) {
@@ -87,10 +84,20 @@ public class articalView extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-//            catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-            return null;
+            catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return articalContent;
         }
+
+        @Override
+        protected void onPostExecute(final String s) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    articalVContent.setText(s);
+                }
+            });
         }
+    }
     }
