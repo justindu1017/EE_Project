@@ -73,7 +73,8 @@ public class MainActivity extends AppCompatActivity {
             String inputPassword = loginPassword.getText().toString();
 
             try {
-                URL url = new URL("http://10.0.2.2/index.php");
+//                URL url = new URL("http://10.0.2.2/index.php");
+                URL url = new URL("https://eeprojectserver.herokuapp.com");
                 HttpURLConnection connection = (HttpURLConnection)url.openConnection();
                 connection.setRequestMethod("POST");
                 connection.setDoOutput(true);

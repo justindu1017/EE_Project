@@ -24,19 +24,26 @@ import java.net.URLEncoder;
 
 public class articalView extends AppCompatActivity {
 
-    TextView articalVTitle, articalVContent;
+    TextView articalVTitle, articalVContent,articalUserName, articalDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_artical_view);
         articalVTitle = findViewById(R.id.articalVTitle);
+        articalUserName = findViewById(R.id.articalUserName);
+
+        articalDate = findViewById(R.id.articalDate);
         articalVContent = findViewById(R.id.articalVContent);
         Intent intent = getIntent();
-
+        String ArticaluserName = intent.getStringExtra("ArticaluserName");
+        String Dates = intent.getStringExtra("Dates");
+        String title = intent.getStringExtra("Title");
         int AID = intent.getIntExtra("AID", 00000);
-        Toast.makeText(this, String.valueOf(AID), Toast.LENGTH_LONG).show();
-
+//        Toast.makeText(this, String.valueOf(AID), Toast.LENGTH_LONG).show();
+        articalDate.setText(Dates);
+        articalUserName.setText(ArticaluserName);
+        articalVTitle.setText(title);
         Load load = new Load();
         load.execute(AID);
     }
@@ -52,7 +59,8 @@ public class articalView extends AppCompatActivity {
             String articalContent = null;
             try {
                 int AID = ints[0];
-                URL url = new URL("http://10.0.2.2/articalContent.php");
+                URL url = new URL("https://eeprojectserver.herokuapp.com/articalContent.php");
+//                URL url = new URL("http://10.0.2.2/articalContent.php");
                 System.out.println("in load AID is "+AID);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setDoInput(true);

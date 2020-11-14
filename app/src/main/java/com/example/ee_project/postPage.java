@@ -61,7 +61,9 @@ public class postPage extends AppCompatActivity {
             String content = strings[1];
 
             try {
-                URL url = new URL("http://10.0.2.2/articalMaker.php");
+//                URL url = new URL("http://10.0.2.2/articalMaker.php");
+
+                URL url = new URL("https://eeprojectserver.herokuapp.com/articalMaker.php");
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setDoInput(true);
                 httpURLConnection.setDoOutput(true);
@@ -99,8 +101,8 @@ public class postPage extends AppCompatActivity {
                                 Toast.makeText(postPage.this, "發文成功", Toast.LENGTH_SHORT).show();
                                 finish();
                                 
-                                Intent intent = new Intent(postPage.this, ArticalListPage.class);
-                                startActivity(intent);
+//                                Intent intent = new Intent(postPage.this, ArticalListPage.class);
+//                                startActivity(intent);
                             }
                         });
                     }

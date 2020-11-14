@@ -88,8 +88,9 @@ public class joinMember extends AppCompatActivity {
                 String joinPassword = str[1];
                 String joinEmail = str[2];
 
-                URL url = new URL("http://10.0.2.2/userRegister.php");
+//                URL url = new URL("http://10.0.2.2/userRegister.php");
 
+                URL url = new URL("https://eeprojectserver.herokuapp.com/userRegister.php");
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setDoInput(true);
                 httpURLConnection.setDoOutput(true);

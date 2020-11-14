@@ -57,6 +57,9 @@ public class ArticalListRecyclerView extends RecyclerView.Adapter<ArticalListRec
                 int AID = item.getArticalAID();
                 Intent intent = new Intent(v.getContext(), articalView.class);
                 intent.putExtra("AID", AID);
+                intent.putExtra("Title",item.getArticalTitle());
+                intent.putExtra("ArticaluserName",item.getArticaluserName());
+                intent.putExtra("Dates",item.getArticalDate());
                 v.getContext().startActivity(intent);
             }
         });

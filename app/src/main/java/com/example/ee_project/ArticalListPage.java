@@ -59,7 +59,7 @@ public class ArticalListPage extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        Toast.makeText(this, "resss",Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "resss",Toast.LENGTH_LONG).show();
         loadData load = new loadData();
         LoadFrom = String.valueOf(0);
         load.execute(LoadFrom);
@@ -75,7 +75,9 @@ public class ArticalListPage extends AppCompatActivity {
             String LoadFrom = strings[0];
 
             try {
-                URL url = new URL("http://10.0.2.2/articalList.php");
+
+                URL url = new URL("https://eeprojectserver.herokuapp.com/articalList.php");
+//                URL url = new URL("http://10.0.2.2/articalList.php");
 //                URL url = new URL("http://10.0.2.2/articalListxxx.php");
 
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
