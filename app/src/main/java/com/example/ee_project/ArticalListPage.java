@@ -1,5 +1,6 @@
 package com.example.ee_project;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,6 +35,7 @@ public class ArticalListPage extends AppCompatActivity {
     Button button;
     RecyclerView recyclerView;
     String LoadFrom;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,18 +61,19 @@ public class ArticalListPage extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Toast.makeText(this, "resss",Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "resss", Toast.LENGTH_LONG).show();
         loadData load = new loadData();
         LoadFrom = String.valueOf(0);
         load.execute(LoadFrom);
-        Toast.makeText(this, "resss",Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "resss", Toast.LENGTH_LONG).show();
     }
 
-    class loadData extends AsyncTask<String, String, ArrayList>{
+    class loadData extends AsyncTask<String, String, Void> {
 
         ArrayList<Item> contentArray = new ArrayList<>();
+
         @Override
-        protected ArrayList doInBackground(String... strings) {
+        protected Void doInBackground(String... strings) {
 
             String LoadFrom = strings[0];
 
@@ -89,7 +92,7 @@ public class ArticalListPage extends AppCompatActivity {
                 StringBuilder stringBuilder = new StringBuilder();
 //    P
                 stringBuilder.append("LoadFrom=").append(URLEncoder.encode(LoadFrom, "UTF-8"));
-                System.out.println("uuu = "+stringBuilder.toString());
+                System.out.println("uuu = " + stringBuilder.toString());
                 dataOutputStream.writeBytes(stringBuilder.toString());
                 dataOutputStream.flush();
                 dataOutputStream.close();
@@ -99,15 +102,15 @@ public class ArticalListPage extends AppCompatActivity {
                 StringBuffer sb = new StringBuffer();
                 String string;
 
-                while((string = reader.readLine())!= null){
+                while ((string = reader.readLine()) != null) {
                     sb.append(string);
-                    System.out.println("sb"+sb);
+                    System.out.println("sb" + sb);
                     final JSONObject jsonObject = new JSONObject(sb.toString());
 
-                    if(jsonObject.getInt("result") == 1){
+                    if (jsonObject.getInt("result") == 1) {
                         System.out.println("enter if");
-                        System.out.println("it is "+jsonObject.getJSONArray("Arr"));
-                        for (int i = 0; i<jsonObject.getJSONArray("Arr").length();i++){
+                        System.out.println("it is " + jsonObject.getJSONArray("Arr"));
+                        for (int i = 0; i < jsonObject.getJSONArray("Arr").length(); i++) {
                             Item item = new Item(jsonObject.getJSONArray("Arr").getJSONArray(i).getInt(0), jsonObject.getJSONArray("Arr").getJSONArray(i).getString(1), jsonObject.getJSONArray("Arr").getJSONArray(i).getString(2), jsonObject.getJSONArray("Arr").getJSONArray(i).getString(3));
                             contentArray.add(item);
                         }
@@ -122,27 +125,57 @@ public class ArticalListPage extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            System.out.println("content array is "+contentArray);
-            return contentArray;
+            System.out.println("content array is " + contentArray);
+            return null;
         }
 
         @Override
-        protected void onPostExecute(final ArrayList arrayList) {
-            System.out.println("from post is "+arrayList);
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            System.out.println("from post is " + contentArray);
             ArticalListPage.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+//                    recyclerView = findViewById(R.id.recycleV);
+//                    ArticalListRecyclerView articalListRecyclerView = new ArticalListRecyclerView(ArticalListPage.this, contentArray);
+//                    recyclerView.setAdapter(articalListRecyclerView);
+//                    recyclerView.setLayoutManager((new LinearLayoutManager(ArticalListPage.this)));
                     recyclerView = findViewById(R.id.recycleV);
-                    ArticalListRecyclerView articalListRecyclerView = new ArticalListRecyclerView(ArticalListPage.this, arrayList);
+                    ArticalListRecyclerView articalListRecyclerView = new ArticalListRecyclerView(ArticalListPage.this, contentArray);
                     recyclerView.setAdapter(articalListRecyclerView);
-                    recyclerView.setLayoutManager((new LinearLayoutManager(ArticalListPage.this)));
+                    final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ArticalListPage.this);
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                        @Override
+                        public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                            super.onScrolled(recyclerView, dx, dy);
+                            int visibleItemCount = layoutManager.getChildCount();
+                            int totalItemCount = layoutManager.getItemCount();
+                            int pastVisiblesItems = ((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
+                            Boolean loading = true;
 
+                            if (dy > 0) {
+                                if (loading) {
+                                    if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                                        LoadFrom = String.valueOf(Integer.parseInt(LoadFrom) + 10);
+                                        System.out.println("Load from " + LoadFrom);
+                                        System.out.println("tell end!!!!!");
+//                                        loadData load = new loadData();
+//                                        load.execute(LoadFrom);
+                                    }
+                                    loading = false;
+                                }
+                            }
+
+                        }
+                    });
                 }
             });
         }
     }
 
-    private void gotoPostACT(){
+
+    private void gotoPostACT() {
         Intent intent = new Intent(ArticalListPage.this, postPage.class);
         startActivity(intent);
 
