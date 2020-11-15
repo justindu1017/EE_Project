@@ -29,20 +29,30 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 public class ArticalListPage extends AppCompatActivity {
 
     Button button;
     RecyclerView recyclerView;
     String LoadFrom;
+    ArrayList<Item> contentArray = new ArrayList<>();
+    ArticalListRecyclerView articalListRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_artical_list_page);
-        loadData load = new loadData();
+        final loadData load = new loadData();
         LoadFrom = String.valueOf(0);
-        load.execute(LoadFrom);
+        try {
+            load.execute(LoadFrom).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         button = findViewById(R.id.postPage);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,27 +60,71 @@ public class ArticalListPage extends AppCompatActivity {
                 gotoPostACT();
             }
         });
-//        recyclerView = findViewById(R.id.recycleV);
-////        ArticalListRecyclerView articalListRecyclerView = new ArticalListRecyclerView(ArticalListPage.this, );
-////        recyclerView.setAdapter(articalListRecyclerView);
-//        recyclerView.setLayoutManager((new LinearLayoutManager(this)));
 
+        recyclerView = findViewById(R.id.recycleV);
+        articalListRecyclerView = new ArticalListRecyclerView(ArticalListPage.this, contentArray);
+        recyclerView.setAdapter(articalListRecyclerView);
+        final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ArticalListPage.this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                int visibleItemCount = layoutManager.getChildCount();
+                int totalItemCount = layoutManager.getItemCount();
+                int pastVisiblesItems = ((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
+                Boolean loading = true;
+
+                if (dy > 0) {
+                    System.out.println("dududu");
+                    if (loading) {
+                        if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                            System.out.println("tell end!!!!!");
+                            LoadFrom = String.valueOf(Integer.parseInt(LoadFrom) + 20);
+                            System.out.println("Load from " + LoadFrom);
+                            loadData LoadMore = new loadData();
+                            try {
+                                LoadMore.execute(LoadFrom).get();
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            articalListRecyclerView.notifyDataSetChanged();
+
+                        }
+                        loading = false;
+                        System.out.println("Boolean is " + loading);
+                    }
+                }
+            }
+        });
+
+        System.out.println("outside is " + contentArray);
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-        Toast.makeText(this, "resss", Toast.LENGTH_LONG).show();
+        contentArray.clear();
+//        Toast.makeText(this, "resss", Toast.LENGTH_LONG).show();
         loadData load = new loadData();
         LoadFrom = String.valueOf(0);
-        load.execute(LoadFrom);
-        Toast.makeText(this, "resss", Toast.LENGTH_LONG).show();
+        try {
+            load.execute(LoadFrom).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        articalListRecyclerView.notifyDataSetChanged();
+        System.out.println("onRes = " + contentArray);
     }
 
     class loadData extends AsyncTask<String, String, Void> {
 
-        ArrayList<Item> contentArray = new ArrayList<>();
+//        ArrayList<Item> contentArray = new ArrayList<>();
 
         @Override
         protected Void doInBackground(String... strings) {
@@ -108,14 +162,13 @@ public class ArticalListPage extends AppCompatActivity {
                     final JSONObject jsonObject = new JSONObject(sb.toString());
 
                     if (jsonObject.getInt("result") == 1) {
-                        System.out.println("enter if");
-                        System.out.println("it is " + jsonObject.getJSONArray("Arr"));
+//                        System.out.println("enter if");
+//                        System.out.println("it is " + jsonObject.getJSONArray("Arr"));
                         for (int i = 0; i < jsonObject.getJSONArray("Arr").length(); i++) {
                             Item item = new Item(jsonObject.getJSONArray("Arr").getJSONArray(i).getInt(0), jsonObject.getJSONArray("Arr").getJSONArray(i).getString(1), jsonObject.getJSONArray("Arr").getJSONArray(i).getString(2), jsonObject.getJSONArray("Arr").getJSONArray(i).getString(3));
                             contentArray.add(item);
                         }
                     }
-
                 }
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -125,54 +178,54 @@ public class ArticalListPage extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            System.out.println("content array is " + contentArray);
+//            System.out.println("content array is " + contentArray);
             return null;
         }
 
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            System.out.println("from post is " + contentArray);
-            ArticalListPage.this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
+//        @Override
+//        protected void onPostExecute(Void aVoid) {
+//            super.onPostExecute(aVoid);
+//            System.out.println("from post is " + contentArray);
+//            ArticalListPage.this.runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+////                    recyclerView = findViewById(R.id.recycleV);
+////                    ArticalListRecyclerView articalListRecyclerView = new ArticalListRecyclerView(ArticalListPage.this, contentArray);
+////                    recyclerView.setAdapter(articalListRecyclerView);
+////                    recyclerView.setLayoutManager((new LinearLayoutManager(ArticalListPage.this)));
 //                    recyclerView = findViewById(R.id.recycleV);
 //                    ArticalListRecyclerView articalListRecyclerView = new ArticalListRecyclerView(ArticalListPage.this, contentArray);
 //                    recyclerView.setAdapter(articalListRecyclerView);
-//                    recyclerView.setLayoutManager((new LinearLayoutManager(ArticalListPage.this)));
-                    recyclerView = findViewById(R.id.recycleV);
-                    ArticalListRecyclerView articalListRecyclerView = new ArticalListRecyclerView(ArticalListPage.this, contentArray);
-                    recyclerView.setAdapter(articalListRecyclerView);
-                    final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ArticalListPage.this);
-                    recyclerView.setLayoutManager(layoutManager);
-                    recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                        @Override
-                        public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                            super.onScrolled(recyclerView, dx, dy);
-                            int visibleItemCount = layoutManager.getChildCount();
-                            int totalItemCount = layoutManager.getItemCount();
-                            int pastVisiblesItems = ((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
-                            Boolean loading = true;
-
-                            if (dy > 0) {
-                                if (loading) {
-                                    if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
-                                        LoadFrom = String.valueOf(Integer.parseInt(LoadFrom) + 10);
-                                        System.out.println("Load from " + LoadFrom);
-                                        System.out.println("tell end!!!!!");
-//                                        loadData load = new loadData();
-//                                        load.execute(LoadFrom);
-                                        // TODO: 2020/11/15 LoadMore there are two ways 1.create a new Thread, 2.dont use onpostexecute
-                                    }
-                                    loading = false;
-                                }
-                            }
-
-                        }
-                    });
-                }
-            });
-        }
+//                    final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ArticalListPage.this);
+//                    recyclerView.setLayoutManager(layoutManager);
+//                    recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//                        @Override
+//                        public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+//                            super.onScrolled(recyclerView, dx, dy);
+//                            int visibleItemCount = layoutManager.getChildCount();
+//                            int totalItemCount = layoutManager.getItemCount();
+//                            int pastVisiblesItems = ((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
+//                            Boolean loading = true;
+//
+//                            if (dy > 0) {
+//                                if (loading) {
+//                                    if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+//                                        LoadFrom = String.valueOf(Integer.parseInt(LoadFrom) + 10);
+//                                        System.out.println("Load from " + LoadFrom);
+//                                        System.out.println("tell end!!!!!");
+////                                        loadData load = new loadData();
+////                                        load.execute(LoadFrom);
+//                                        // TODO: 2020/11/15 LoadMore there are two ways 1.create a new Thread, 2.dont use onpostexecute
+//                                    }
+//                                    loading = false;
+//                                }
+//                            }
+//
+//                        }
+//                    });
+//                }
+//            });
+//        }
     }
 
 
