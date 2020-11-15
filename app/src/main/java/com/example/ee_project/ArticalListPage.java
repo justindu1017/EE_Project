@@ -162,6 +162,7 @@ public class ArticalListPage extends AppCompatActivity {
                                         System.out.println("tell end!!!!!");
 //                                        loadData load = new loadData();
 //                                        load.execute(LoadFrom);
+                                        // TODO: 2020/11/15 LoadMore there are two ways 1.create a new Thread, 2.dont use onpostexecute
                                     }
                                     loading = false;
                                 }
