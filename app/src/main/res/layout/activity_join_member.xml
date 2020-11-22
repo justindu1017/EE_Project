@@ -19,7 +19,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Please Enter Your PAssword again"
+        android:hint="Please Enter Your Password again"
         android:id="@+id/joinpassWord2"/>
     <EditText
         android:layout_width="match_parent"
