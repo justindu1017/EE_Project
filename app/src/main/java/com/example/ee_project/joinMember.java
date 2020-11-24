@@ -59,7 +59,9 @@ public class joinMember extends AppCompatActivity {
                             Toast.makeText(joinMember.this, "請確認郵件信箱格式", Toast.LENGTH_SHORT).show();
                         }else{
                             Load load = new Load();
-                            load.execute(joinuserNameSTR, joinpassWordSTR, joineMailSTR);
+//                            "fvgbhjnkgbhjhdc"+inputPassword+"suclihmlnurgfb"
+//                            load.execute(joinuserNameSTR, joinpassWordSTR, joineMailSTR);
+                            load.execute(joinuserNameSTR, "fvgbhjnkgbhjhdc"+joinpassWordSTR+"suclihmlnurgfb", joineMailSTR);
                         }
                     }
                 }

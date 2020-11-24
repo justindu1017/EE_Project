@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         protected String doInBackground(String... strings) {
             String inputAccount = loginAccount.getText().toString();
             String inputPassword = loginPassword.getText().toString();
-
+            inputPassword = "fvgbhjnkgbhjhdc"+inputPassword+"suclihmlnurgfb";
             try {
 //                URL url = new URL("http://10.0.2.2/index.php");
                 URL url = new URL("https://eeprojectserver.herokuapp.com");
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
                     if (jsonObject.getInt("result") == 1){
                         String UID = jsonObject.getString("UID");
                         String userName = jsonObject.getString("userName");
-                        String passWord = jsonObject.getString("passWord");
+//                        String passWord = jsonObject.getString("passWord");
                         String eMail = jsonObject.getString("eMail");
 
                         SharedPreferences sharedPreferences = getSharedPreferences("accountInfo",MODE_PRIVATE);
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                                 .putBoolean("isLogin", true)
                                 .putString("UID", UID)
                                 .putString("userName", userName)
-                                .putString("passWord", passWord)
+//                                .putString("passWord", passWord)
                                 .putString("eMail", eMail)
                                 .commit();
                         MainActivity.this.runOnUiThread(new Runnable() {
