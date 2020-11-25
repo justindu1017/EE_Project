@@ -49,18 +49,20 @@ public class joinMember extends AppCompatActivity {
                 String joinpassWord2STR = joinpassWord2.getText().toString();
                 String joineMailSTR = joineMail.getText().toString();
                 Boolean valia = false;
+                System.out.println("LENGTH is "+joinpassWordSTR.length());
                 if (joinuserNameSTR.equals("") || joinpassWordSTR.equals("") || joinpassWord2STR.equals("") || joineMailSTR.equals("")){
                     Toast.makeText(joinMember.this, "請確認欄位都已填寫",Toast.LENGTH_SHORT).show();
                 }else{
-                    if (!joinpassWordSTR.equals(joinpassWord2STR)){
+                    if(6<joinpassWordSTR.length()&&joinpassWordSTR.length()<15){
+                        Toast.makeText(joinMember.this, "請確認密碼大於10碼",Toast.LENGTH_SHORT).show();
+                    }
+                    else if (!joinpassWordSTR.equals(joinpassWord2STR)){
                         Toast.makeText(joinMember.this, "請確認兩次密碼是否相同",Toast.LENGTH_SHORT).show();
                     }else{
                         if(!isValidEmailAddress(joineMailSTR)){
                             Toast.makeText(joinMember.this, "請確認郵件信箱格式", Toast.LENGTH_SHORT).show();
                         }else{
                             Load load = new Load();
-//                            "fvgbhjnkgbhjhdc"+inputPassword+"suclihmlnurgfb"
-//                            load.execute(joinuserNameSTR, joinpassWordSTR, joineMailSTR);
                             load.execute(joinuserNameSTR, "fvgbhjnkgbhjhdc"+joinpassWordSTR+"suclihmlnurgfb", joineMailSTR);
                         }
                     }

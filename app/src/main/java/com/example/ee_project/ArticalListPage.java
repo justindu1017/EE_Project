@@ -6,8 +6,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -38,6 +42,26 @@ public class ArticalListPage extends AppCompatActivity {
     String LoadFrom;
     ArrayList<Item> contentArray = new ArrayList<>();
     ArticalListRecyclerView articalListRecyclerView;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.munu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.logout:logOut();
+                return true;
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -231,6 +255,19 @@ public class ArticalListPage extends AppCompatActivity {
 
     private void gotoPostACT() {
         Intent intent = new Intent(ArticalListPage.this, postPage.class);
+        startActivity(intent);
+
+    }
+    private void logOut() {
+        SharedPreferences sharedPreferences = getSharedPreferences("accountInfo",MODE_PRIVATE);
+        sharedPreferences.edit()
+            .putBoolean("isLogin", false)
+            .putString("UID", "")
+            .putString("userName", "")
+//                                .putString("passWord", passWord)
+            .putString("eMail", "")
+            .commit();
+        Intent intent = new Intent(ArticalListPage.this, MainActivity.class);
         startActivity(intent);
 
     }
