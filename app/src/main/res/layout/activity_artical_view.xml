@@ -14,7 +14,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/articalVTitle"/>
+            android:id="@+id/articalVTitle"
+            android:textSize="15pt"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,7 +39,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/articalVContent"/>
+        android:id="@+id/articalVContent"
+        android:textSize="15pt"/>
 
 
 </LinearLayout>

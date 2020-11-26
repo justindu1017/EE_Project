@@ -53,17 +53,19 @@ public class joinMember extends AppCompatActivity {
                 if (joinuserNameSTR.equals("") || joinpassWordSTR.equals("") || joinpassWord2STR.equals("") || joineMailSTR.equals("")){
                     Toast.makeText(joinMember.this, "請確認欄位都已填寫",Toast.LENGTH_SHORT).show();
                 }else{
-                    if(6<joinpassWordSTR.length()&&joinpassWordSTR.length()<15){
-                        Toast.makeText(joinMember.this, "請確認密碼大於10碼",Toast.LENGTH_SHORT).show();
-                    }
-                    else if (!joinpassWordSTR.equals(joinpassWord2STR)){
-                        Toast.makeText(joinMember.this, "請確認兩次密碼是否相同",Toast.LENGTH_SHORT).show();
-                    }else{
-                        if(!isValidEmailAddress(joineMailSTR)){
-                            Toast.makeText(joinMember.this, "請確認郵件信箱格式", Toast.LENGTH_SHORT).show();
-                        }else{
-                            Load load = new Load();
-                            load.execute(joinuserNameSTR, "fvgbhjnkgbhjhdc"+joinpassWordSTR+"suclihmlnurgfb", joineMailSTR);
+                    System.out.println("LEN = "+joinpassWordSTR.length());
+                    if(6>joinpassWordSTR.length()||joinpassWordSTR.length()>15){
+                        Toast.makeText(joinMember.this, "請確認密碼長度介於6~15碼",Toast.LENGTH_SHORT).show();
+                    }else  {
+                        if (!joinpassWordSTR.equals(joinpassWord2STR)) {
+                            Toast.makeText(joinMember.this, "請確認兩次密碼是否相同", Toast.LENGTH_SHORT).show();
+                        } else {
+                            if (!isValidEmailAddress(joineMailSTR)) {
+                                Toast.makeText(joinMember.this, "請確認郵件信箱格式", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Load load = new Load();
+                                load.execute(joinuserNameSTR, "fvgbhjnkgbhjhdc" + joinpassWordSTR + "suclihmlnurgfb", joineMailSTR);
+                            }
                         }
                     }
                 }
