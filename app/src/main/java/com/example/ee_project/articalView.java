@@ -21,10 +21,11 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 
 public class articalView extends AppCompatActivity {
 
-    TextView articalVTitle, articalVContent,articalUserName, articalDate;
+    TextView articalVTitle, articalVContent,articalUserName, articalDate,answerVContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +33,7 @@ public class articalView extends AppCompatActivity {
         setContentView(R.layout.activity_artical_view);
         articalVTitle = findViewById(R.id.articalVTitle);
         articalUserName = findViewById(R.id.articalUserName);
-
+        answerVContent = findViewById(R.id.answerVContent);
         articalDate = findViewById(R.id.articalDate);
         articalVContent = findViewById(R.id.articalVContent);
         Intent intent = getIntent();
@@ -44,6 +45,7 @@ public class articalView extends AppCompatActivity {
         articalDate.setText(Dates);
         articalUserName.setText(ArticaluserName);
         articalVTitle.setText(title);
+
         Load load = new Load();
         load.execute(AID);
     }
@@ -51,13 +53,16 @@ public class articalView extends AppCompatActivity {
 
 
 
-    class Load extends AsyncTask<Integer,String,String>{
+//    class Load extends AsyncTask<Integer,String,String>{
+    class Load extends AsyncTask<Integer, ArrayList<String>,ArrayList<String>>{
 
 
         @Override
-        protected String doInBackground(Integer... ints) {
+        protected ArrayList<String> doInBackground(Integer... ints) {
             String articalContent = null;
+            ArrayList<String> returnArray = new ArrayList<>();
             try {
+
                 int AID = ints[0];
                 URL url = new URL("https://eeprojectserver.herokuapp.com/articalContent.php");
 //                URL url = new URL("http://10.0.2.2/articalContent.php");
@@ -83,8 +88,13 @@ public class articalView extends AppCompatActivity {
                 while((string = reader.readLine())!= null){
                     sb.append(string);
                     System.out.println("it is "+sb);
+
                     final JSONObject jsonObject = new JSONObject(sb.toString());
-                    articalContent =  jsonObject.getString("articalContent");
+//                    articalContent =  jsonObject.getString("articalContent");
+                    returnArray.add(jsonObject.getString("articalContent"));
+                    System.out.println("1 = "+jsonObject.getString("articalContent"));
+                    returnArray.add(jsonObject.getString("hasAnswer"));
+                    System.out.println("2 = "+jsonObject.getString("hasAnswer"));
                 }
 
             } catch (MalformedURLException e) {
@@ -95,15 +105,20 @@ public class articalView extends AppCompatActivity {
             catch (JSONException e) {
                 e.printStackTrace();
             }
-            return articalContent;
+            return returnArray;
         }
 
         @Override
-        protected void onPostExecute(final String s) {
+        protected void onPostExecute(final ArrayList<String> s) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    articalVContent.setText(s);
+                    articalVContent.setText(s.get(0));
+                    if(s.get(1).equals("")){
+                        answerVContent.setText("這個問題尚未被回答喔");
+                    }else {
+                        answerVContent.setText(s.get(1));
+                    }
                 }
             });
         }

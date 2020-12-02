@@ -41,6 +41,16 @@
         android:layout_height="wrap_content"
         android:id="@+id/articalVContent"
         android:textSize="15pt"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="\n關於此問題....."
+        android:textSize="10pt"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/answerVContent"
+        android:textSize="15pt"/>
 
 
 </LinearLayout>
