@@ -14,7 +14,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Please Enter Your Passwoed"
+        android:hint="Please Enter Your Password"
         android:id="@+id/joinpassWord"/>
     <EditText
         android:layout_width="match_parent"
