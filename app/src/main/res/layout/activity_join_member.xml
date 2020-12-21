@@ -6,26 +6,36 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".joinMember">
+
     <EditText
+        android:id="@+id/joinuserName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Please Enter Your Username"
-        android:id="@+id/joinuserName"/>
+        android:singleLine="true" />
+
     <EditText
+        android:id="@+id/joinpassWord"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Please Enter Your Password"
-        android:id="@+id/joinpassWord"/>
+        android:password="true"
+        android:singleLine="true" />
+
     <EditText
+        android:id="@+id/joinpassWord2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Please Enter Your Password again"
-        android:id="@+id/joinpassWord2"/>
+        android:password="true"
+        android:singleLine="true" />
+
     <EditText
+        android:id="@+id/joineMail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Please Enter Your Email"
-        android:id="@+id/joineMail"/>
+        android:singleLine="true" />
 
     <Button
         android:layout_width="wrap_content"

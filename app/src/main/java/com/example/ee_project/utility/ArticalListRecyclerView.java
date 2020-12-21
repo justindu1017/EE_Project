@@ -79,7 +79,7 @@ public class ArticalListRecyclerView extends RecyclerView.Adapter<ArticalListRec
             listLinearLayout = itemView.findViewById(R.id.listLinearLayout);
             llistSecondLinearLayout = itemView.findViewById(R.id.llistSecondLinearLayout);
             listTitle = itemView.findViewById(R.id.listTitle);
-            listContent = itemView.findViewById(R.id.listContent);
+//            listContent = itemView.findViewById(R.id.listContent);
             listName = itemView.findViewById(R.id.listName);
         }
     }
