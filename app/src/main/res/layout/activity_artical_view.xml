@@ -37,7 +37,7 @@
 
     </LinearLayout></LinearLayout>
     <TextView
-        android:paddingTop="6pt"
+        android:paddingTop="5pt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/articalVContent"
