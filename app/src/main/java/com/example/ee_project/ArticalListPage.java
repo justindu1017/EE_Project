@@ -106,14 +106,18 @@ public class ArticalListPage extends AppCompatActivity {
                             System.out.println("tell end!!!!!");
                             LoadFrom = String.valueOf(Integer.parseInt(LoadFrom) + 20);
                             System.out.println("Load from " + LoadFrom);
-                            loadData LoadMore = new loadData();
-                            try {
-                                LoadMore.execute(LoadFrom).get();
-                            } catch (ExecutionException e) {
-                                e.printStackTrace();
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
+                            new Thread(()->{
+                                loadData LoadMore = new loadData();
+                                try {
+                                    LoadMore.execute(LoadFrom).get();
+                                } catch (ExecutionException e) {
+                                    e.printStackTrace();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }).start();
+
+
                             articalListRecyclerView.notifyDataSetChanged();
 
                         }
